@@ -1,18 +1,13 @@
 package com.qsheker.school.entities;
 
-import com.qsheker.school.comparators.GroupNameComparator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SortNatural;
-import org.hibernate.annotations.SortComparator;
 
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -23,19 +18,34 @@ import java.util.TreeSet;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Course> courses = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "teachers")
+    @Builder.Default
+    private List<Group> groups = new ArrayList<>();
+
 
     /*
      * 1. @OrderBy - Sorts collection by entity field when loading from DB
      *    - Uses SQL ORDER BY clause
      *    - Works with List/Set
      */
-    @OneToMany(mappedBy = "teacher")
 //    @OrderBy("courseName ASC") // Sorts courses by name in ascending order
-    private List<Course> courses;
+
 
     /*
      * 2. @OrderColumn - Maintains persistent ordering using a dedicated DB column

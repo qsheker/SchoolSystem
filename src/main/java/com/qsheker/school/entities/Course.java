@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
-import org.hibernate.annotations.FetchProfiles;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,16 +31,31 @@ import java.util.List;
 @Table(name = "courses")
 @Builder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "affect_for_gpa")
-public class Course extends BaseEntity<Long>{
+public class Course{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String courseName;
 
-    private boolean affect = true;
+    @Column(nullable = false, unique = true)
+    private String courseCode;
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    private List<Student> students;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Grade> grades = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "student_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    @Builder.Default
+    private List<Student > students = new ArrayList<>();
 }

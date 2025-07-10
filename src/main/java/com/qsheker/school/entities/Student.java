@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,35 +20,26 @@ import java.util.List;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
-    @Builder.Default
-    @ElementCollection
-    @CollectionTable(
-            name = "contact_info",
-            joinColumns = @JoinColumn(name = "student_id")
-    )
-    private List<ContactInfo> contactInfos = new ArrayList<>();
+    @Column(nullable = false, unique = true)
+    private String email;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
 
-    @ManyToMany
-    @Builder.Default
-    @JoinTable(
-            name = "student_courses",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Course> courses =new ArrayList<>();
-
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Grade> grades = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group studentGroup;
+    @ManyToMany(mappedBy = "students")
+    @Builder.Default
+    private List<Course> courses = new ArrayList<>();
 }

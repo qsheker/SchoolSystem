@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.OptimisticLockType;
-import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
 
@@ -22,18 +19,22 @@ import javax.persistence.*;
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @Column(nullable = false)
+    private Double gradeValue;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
+
 
 //    @Version
 //    private Long version;
 
-    private double courseTotal;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
 }

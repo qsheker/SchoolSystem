@@ -2,7 +2,6 @@ package com.qsheker.school.dao;
 
 
 import com.qsheker.school.entities.Course;
-import com.qsheker.school.entities.Student;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;

@@ -48,13 +48,4 @@ public class AuditableEntity<T extends Serializable>{
         return updatedBy;
     }
 
-    @PrePersist
-    public void prePersist(){
-        this.setCreatedAt(Instant.now());
-    }
-    @PreUpdate
-    public void postUpdate(){
-        this.setUpdatedAt(Instant.now());
-    }
-
 }

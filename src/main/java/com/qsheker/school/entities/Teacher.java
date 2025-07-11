@@ -30,9 +30,11 @@ public class Teacher {
     private String email;
 
 
+
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Course> courses = new ArrayList<>();
+
 
     @ManyToMany(mappedBy = "teachers")
     @Builder.Default

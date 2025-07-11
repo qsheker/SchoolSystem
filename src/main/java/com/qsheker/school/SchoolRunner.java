@@ -15,16 +15,7 @@ public class SchoolRunner {
     public static void main(String[] args) {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
-
-        var group = session.get(Group.class, 1L);
-        var student = Student.builder().
-                firstName("Max").
-                lastName("Payne").
-                email("maxiPain@school.edu").
-                group(group).
-                build();
-        session.save(student);
-
+        
         session.beginTransaction();
         session.getTransaction().commit();
     }

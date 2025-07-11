@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "students")
 @Builder
-public class Student {
+public class Student extends AuditableEntity<Long>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

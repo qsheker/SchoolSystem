@@ -1,10 +1,7 @@
 package com.qsheker.school.entities;
 
 import com.qsheker.school.listeners.AuditListener;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.List;
 @Table(name = "students")
 @Builder
 @EntityListeners(value = AuditListener.class)
+@ToString(exclude = {"group","courses"})
 public class Student{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

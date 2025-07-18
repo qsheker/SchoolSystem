@@ -30,8 +30,8 @@
         </filter>
     </appender>
 
-    <!-- Логгер com.dmdev -->
-    <logger name="com.dmdev" level="INFO" additivity="false">
+    <!-- Логгер com.qsheker -->
+    <logger name="com.qsheker" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
 

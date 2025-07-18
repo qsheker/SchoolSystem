@@ -1,10 +1,8 @@
 package com.qsheker.school.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.*;
@@ -15,6 +13,8 @@ import java.util.*;
 @Entity
 @Table(name = "teachers")
 @Builder
+@ToString(exclude = {"groups","courses"})
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region = "Teachers")
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,12 @@ public class Teacher {
 
 
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @Builder.Default
     private List<Course> courses = new ArrayList<>();
 
 
-    @ManyToMany(mappedBy = "teachers")
+    @ManyToMany(mappedBy = "teachers",fetch = FetchType.LAZY)
     @Builder.Default
     private List<Group> groups = new ArrayList<>();
 

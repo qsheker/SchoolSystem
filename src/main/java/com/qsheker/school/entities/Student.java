@@ -16,12 +16,9 @@ import java.util.List;
 @Table(name = "students")
 @Builder
 @EntityListeners(value = AuditListener.class)
-@ToString(exclude = {"group","courses"})
+@ToString(exclude = {"grades","courses"})
 @Audited
-public class Student{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Student extends BaseEntity<Long> {
 
     @Column(nullable = false)
     private String firstName;

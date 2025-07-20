@@ -3,9 +3,6 @@ package com.qsheker.school.entities;
 
 
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.time.Instant;
 

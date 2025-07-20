@@ -15,10 +15,7 @@ import java.util.*;
 @Builder
 @ToString(exclude = {"groups","courses"})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region = "Teachers")
-public class Teacher {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Teacher extends BaseEntity<Long>{
 
     @Column(nullable = false)
     private String firstName;
